@@ -7,13 +7,13 @@ const createUser = async (req: Request, res: Response) => {
     const result = await UserService.createUser(user);
     res.status(200).json({
       success: true,
-      message: 'Student created successfully',
+      message: 'User created successfully',
       data: result,
     });
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error.message || 'Student not created',
+      message: error.message || 'User not created',
       data: error,
     });
   }

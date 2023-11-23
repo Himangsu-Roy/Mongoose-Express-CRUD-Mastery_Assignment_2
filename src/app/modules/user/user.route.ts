@@ -3,6 +3,6 @@ import { UserController } from './user.controller';
 
 const router = express.Router();
 
-router.post('/', UserController.createUser);
+router.post('/create-user', UserController.createUser);
 
-export default router;
+export const UserRoutes = router;

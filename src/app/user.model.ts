@@ -1,5 +1,7 @@
-import { Schema, model, connect } from "mongoose";
-import { TUser } from "./modules/user/user.interface";
+import { Schema, model, connect } from 'mongoose';
+import { TUser, TUserMethods, TUserModel } from './modules/user/user.interface';
+import bcrypt from 'bcrypt';
+import config from './config';
 
 // Define the order schema
 const orderSchema = new Schema({
@@ -9,10 +11,14 @@ const orderSchema = new Schema({
 });
 
 // Define the user schema
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, TUserModel, TUserMethods>({
   userId: { type: Number, unique: true },
   username: { type: String, unique: true },
-  password: { type: String, required: true },
+  password: {
+    type: String,
+    required: [true, 'password is required'],
+    maxlength: [20, 'password must be at most 20 characters long'],
+  },
   fullName: {
     firstName: { type: String },
     lastName: { type: String },
@@ -29,7 +35,32 @@ const userSchema = new Schema<TUser>({
   orders: { type: [orderSchema] },
 });
 
+// password hashing and save into DB
+userSchema.pre('save', function (this: TUser, next) {
+  const password = this.password;
+  bcrypt.hash(password, Number(config.bcrypt_salt_rounds), (err, hash) => {
+    if (err) {
+      throw new Error('Error hashing password');
+      // return next(err);
+    }
+    this.password = hash;
+  });
+  next();
+});
 
-const UserModel = model<TUser>('User', userSchema);
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// user is exists or not
+userSchema.methods.isUserExists = async function (userId: number) {
+  const existingUser = await UserModel.findOne({ userId });
+  return existingUser;
+};
+
+// userSchema.index({ id: 1 }, { unique: true });
+
+const UserModel = model<TUser, TUserModel>('User', userSchema);
 
 export default UserModel;

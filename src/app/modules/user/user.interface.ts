@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 type TOrder = {
   productName: string;
   price: number;
@@ -24,3 +26,14 @@ export type TUser = {
   orders: TOrder[];
 };
 
+
+
+// for creating instance constructor function user is exist or not
+// export type TUserMethods = TUser & {
+//   isUserExists: (id: string) => Promise<TUser | null>;
+// };
+export type TUserMethods = {
+  isUserExists(userId: number): Promise<TUser | null>;
+};
+
+export type TUserModel = Model<TUser, Record<string, never>, TUserMethods>;

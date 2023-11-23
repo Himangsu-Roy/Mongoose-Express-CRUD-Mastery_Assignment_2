@@ -9,7 +9,7 @@ async function main() {
       console.log(`Server is running on port ${config.port}`);
     });
   } catch (error) {
-    console.log("Cannot connect to database");
+    console.log("Cannot connect to database", error);
     process.exit();
   }
 }
