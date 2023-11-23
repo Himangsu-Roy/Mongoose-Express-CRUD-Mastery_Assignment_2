@@ -37,15 +37,12 @@ const userSchema = new Schema<TUser, TUserModel, TUserMethods>({
 
 // password hashing and save into DB
 userSchema.pre('save', function (this: TUser, next) {
-  const password = this.password;
-  bcrypt.hash(password, Number(config.bcrypt_salt_rounds), (err, hash) => {
-    if (err) {
-      throw new Error('Error hashing password');
-      // return next(err);
-    }
+  // hashing password and save into DB
+  bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds), (err, hash) => {
+    if (err) return next(err);
     this.password = hash;
+    next();
   });
-  next();
 });
 
 userSchema.post('save', function (doc, next) {

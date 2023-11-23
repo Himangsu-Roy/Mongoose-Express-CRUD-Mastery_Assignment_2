@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const result = await UserService.createUser(user);
+    const result = await UserService.createUserIntoDB(user);
     res.status(200).json({
       success: true,
       message: 'User created successfully',
@@ -19,6 +19,28 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const result = await UserService.getAllUserFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'All user fetched successfully',
+      size: result.length,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || 'Users not fetched',
+      data: error,
+    });
+  }
+}
+
+
+
 export const UserController = {
   createUser,
+  getAllUsers,
 };

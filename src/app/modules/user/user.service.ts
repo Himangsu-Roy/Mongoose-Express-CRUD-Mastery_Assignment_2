@@ -1,7 +1,7 @@
 import UserModel from '../../user.model';
 import { TUser } from './user.interface';
 
-const createUser = async (userData: TUser) => {
+const createUserIntoDB = async (userData: TUser) => {
   const user = new UserModel(userData);
   if (await user.isUserExists(userData.userId)) {
     throw new Error('User already exists');
@@ -11,6 +11,13 @@ const createUser = async (userData: TUser) => {
   // return await UserModel.create(user);
 };
 
+
+const getAllUserFromDB = async () => {
+  const result = await UserModel.find();
+  return result;
+}
+
 export const UserService = {
-  createUser,
+  createUserIntoDB,
+  getAllUserFromDB,
 };
