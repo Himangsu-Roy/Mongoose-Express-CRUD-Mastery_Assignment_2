@@ -33,6 +33,7 @@ const userSchema = new Schema<TUser, TUserModel, TUserMethods>({
     country: { type: String },
   },
   orders: { type: [orderSchema] },
+  isDeleted: { type: Boolean, default: false },
 });
 
 // password hashing and save into DB
@@ -50,13 +51,23 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
+
+userSchema.pre('findOne', function (next) {
+  this.findOne({ isDeleted: { $ne: true } });
+  next();
+});
+
+// aggregation
+userSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
 // user is exists or not
 userSchema.methods.isUserExists = async function (userId: number) {
   const existingUser = await UserModel.findOne({ userId });
   return existingUser;
 };
-
-
 
 // userSchema.index({ id: 1 }, { unique: true });
 
