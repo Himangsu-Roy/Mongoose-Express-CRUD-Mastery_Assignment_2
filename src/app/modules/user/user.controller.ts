@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
+import UserModel from '../../user.model';
 
+// create a user
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
     const result = await UserService.createUserIntoDB(user);
+
     res.status(200).json({
       success: true,
       message: 'User created successfully',
@@ -19,6 +22,8 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+
+// get all users
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const result = await UserService.getAllUserFromDB();
@@ -37,26 +42,78 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+
+// get user by id
 const getOneUserById = async (req: Request, res: Response) => {
   try {
-    const userID = req.params.userId;
-    const result = await UserService.getOneUserFromDB(Number(userID));
+    const userId = req.params.userId;
+    const parseData = Number(userId);
+    const user = await UserService.getOneUserFromDB(parseData);
+
+    const userExists = new UserModel(user);
+    if (!(await userExists.isUserExists(parseData))) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: 'User fetched successfully',
-      data: result,
+      data: user,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
-      message: error.message || 'User not fetched',
+      message: error.message || 'User not found',
       data: error,
     });
   }
 };
 
+
+// update user by id
+const updateUserById = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const parseData = Number(userId);
+    const user = req.body;
+    const result = await UserService.updateUserIntoDB(parseData, user);
+
+    const userExists = new UserModel(result);
+    if (!(await userExists.isUserExists(parseData))) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || 'User not updated',
+      data: error,
+    });
+  }
+}
+
 export const UserController = {
   createUser,
   getAllUsers,
   getOneUserById,
+  updateUserById,
 };

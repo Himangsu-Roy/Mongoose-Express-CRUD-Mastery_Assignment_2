@@ -1,4 +1,4 @@
-import { Schema, model, connect } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { TUser, TUserMethods, TUserModel } from './modules/user/user.interface';
 import bcrypt from 'bcrypt';
 import config from './config';
@@ -55,6 +55,8 @@ userSchema.methods.isUserExists = async function (userId: number) {
   const existingUser = await UserModel.findOne({ userId });
   return existingUser;
 };
+
+
 
 // userSchema.index({ id: 1 }, { unique: true });
 
