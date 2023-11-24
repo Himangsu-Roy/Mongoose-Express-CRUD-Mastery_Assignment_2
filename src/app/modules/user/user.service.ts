@@ -11,13 +11,28 @@ const createUserIntoDB = async (userData: TUser) => {
   // return await UserModel.create(user);
 };
 
-
 const getAllUserFromDB = async () => {
-  const result = await UserModel.find();
+  const result = await UserModel.aggregate([
+    {
+      $project: {
+        username: 1,
+        fullName: 1,
+        age: 1,
+        email: 1,
+        address: 1,
+      },
+    },
+  ]);
+  return result; 
+};
+
+const getOneUserFromDB = async (userId: number) => {
+  const result = await UserModel.findOne({ userId });
   return result;
-}
+};
 
 export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
+  getOneUserFromDB,
 };
