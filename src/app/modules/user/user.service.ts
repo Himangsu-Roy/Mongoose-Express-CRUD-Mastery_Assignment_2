@@ -90,13 +90,23 @@ const getAllOrdersByUserIdDB = async (userId: number) => {
 const getTotalPriceByUserIdDB = async (userId: number) => {
   const result = await UserModel.aggregate([
     { $match: { userId } },
+    { $unwind: '$orders' },
+    {
+      $group: {
+        _id: null,
+        totalPrice: {
+          $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+        },
+      },
+    },
     {
       $project: {
-        totalPrice: { $sum: '$orders.price' },
         _id: 0,
+        totalPrice: 1,
       },
     },
   ]);
+  
   const totalPrice = result.length > 0 ? result[0].totalPrice : 0;
   return totalPrice;
 };
