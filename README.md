@@ -68,7 +68,7 @@ BCRYPT_SALT_ROUNDS=12
 <pre><code>GET /api/users/:userId</code></pre>
 
 - **Update user information:**
-<per><code>PUT /api/users/:userId</code></pre>
+<per><code>PUT /api/users/:userId</code></per>
 
 - **Delete a user:**
 <pre><code>DELETE /api/users/:userId </code></pre>
