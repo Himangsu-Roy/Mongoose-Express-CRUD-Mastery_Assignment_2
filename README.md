@@ -4,63 +4,86 @@ This is a simple Node.js Express application with TypeScript for building a CRUD
 
 ## Prerequisites
 
-- Node.js installed on your machine
-- MongoDB installed and running
+- **Node.js installed on your machine**
+- **MongoDB installed and running**
 
 ## Getting Started
 
-1. **Clone the Repository**
+#### 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/your-project.git
+   git clone https://github.com/Himangsu-Roy/Mongoose-Express-CRUD-Mastery_Assignment_2.git
    cd your-project
    ```
 
-1. Install Dependencies
+#### 2. **Install Dependencies**
 <pre>npm install</pre>
 
-1. Configure Environment Variables
+#### 3. **Configure Environment Variables**
    MONGODB_URI=your_mongodb_connection_string
    PORT=3000
 
-1. Run the Application
+#### 4. **Run the Application**
 <pre>npm run dev</pre>
 
-1. API Endpoints
+#### 5. **API Endpoints**
 
 - Create a new user:
+<pre>
   POST /api/users
   Request Body:
-  {
-  // user data
-  }
+<code>
+{
+    "userId": "number",
+    "username": "string",
+    "password": "string",
+    "fullName": {
+        "firstName": "string",
+        "lastName": "string"
+    },
+    "age": "number",
+    "email": "string",
+    "isActive": "boolean",
+    "hobbies": [
+        "string",
+        "string"
+    ],
+    "address": {
+        "street": "string",
+        "city": "string",
+        "country": "string"
+    }
+}
+</code>
+</pre>
 
 - Retrieve all users:
-  GET /api/users
+<pre> GET /api/users</pre>
 
 - Retrieve a specific user by ID:
-  GET /api/users/:userId
+  <pre>GET /api/users/:userId</pre>
 
 - Update user information:
-  PUT /api/users/:userId
-  Request Body:
-  {
-  // updated user data
-  }
+<per>
+PUT /api/users/:userId
+Request Body:
+</pre>
 
 - Delete a user:
-  <pre>DELETE /api/users/:userId </pre>
+<pre>DELETE /api/users/:userId </pre>
 
 - Add a new product in order:
 
 <pre>
 PUT /api/users/:userId/orders
 Request Body:
+<code>
 {
     "productName": "string",
     "price": "number",
     "quantity": "number"
 }
+</code>
 </pre>
 
 - Retrieve all orders for a specific user:
@@ -72,11 +95,11 @@ GET /api/users/:userId/orders
 <pre>GET /api/users/:userId/orders/total-price
 </pre>
 
-5. Testing
+#### 6. **Testing**
    You can use tools like Postman to test the API endpoints locally.
 
 <pre>
-<code>
+
 Make sure to replace placeholders like `your_mongodb_connection_string` with your actual information. Additionally, tailor the content according to the structure and features of your application.
-</code>
+
 </pre>
