@@ -50,7 +50,12 @@ const getOneUserFromDB = async (userId: number) => {
 
 // update a user into DB
 const updateUserIntoDB = async (userId: number, userData: TUser) => {
-  const result = await UserModel.updateOne({ userId }, userData);
+  const result = await UserModel.findOneAndUpdate(
+    { userId },
+    { $set: userData },
+    { new: true, select: '-isDeleted -orders -password -_id -__v' },
+  );
+
   return result;
 };
 
@@ -106,7 +111,7 @@ const getTotalPriceByUserIdDB = async (userId: number) => {
       },
     },
   ]);
-  
+
   const totalPrice = result.length > 0 ? result[0].totalPrice : 0;
   return totalPrice;
 };

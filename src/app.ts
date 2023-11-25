@@ -23,7 +23,7 @@ app.use('/api/users', UserRoutes);
 
 // landing route
 app.get('/', (req: Request, res: Response) => {
-  res.send('Node.js, Express, MongoDB, TypeScript CRUD Application Server is Running');
+  res.send('Node.js Express MongoDB TypeScript CRUD Application Server is Running');
 });
 
 export default app;
