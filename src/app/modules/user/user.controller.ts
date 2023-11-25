@@ -7,7 +7,7 @@ import userSchema from './user.validation';
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const userValidateData = userSchema.parse(user)
+    const userValidateData = userSchema.parse(user);
     const result = await UserService.createUserIntoDB(userValidateData);
 
     res.status(200).json({
@@ -23,7 +23,6 @@ const createUser = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 // get all users
 const getAllUsers = async (req: Request, res: Response) => {
@@ -43,7 +42,6 @@ const getAllUsers = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 // get user by id
 const getOneUserById = async (req: Request, res: Response) => {
@@ -78,7 +76,6 @@ const getOneUserById = async (req: Request, res: Response) => {
   }
 };
 
-
 // update user by id
 const updateUserById = async (req: Request, res: Response) => {
   try {
@@ -111,19 +108,67 @@ const updateUserById = async (req: Request, res: Response) => {
       data: error,
     });
   }
-}
+};
 
 // Delete a User by Id
-
 const deleteUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const parseData = Number(userId);
-    const result = await UserService.deleteUserFromDB(parseData);
+    // const result = await UserService.deleteUserFromDB(parseData);
 
+    // const userExists = await UserModel.isUserExists(userId);
+    const userExists = new UserModel();
+    const existingUser = userExists.isUserExists(parseData);
+    console.log(await existingUser);
 
+    if (!(await existingUser)) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
     // const userExists = new UserModel(result);
-    if (result.matchedCount === 0) {
+    // if (result.matchedCount === 0) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: 'User not found',
+    //     error: {
+    //       code: 404,
+    //       description: 'User not found!',
+    //     },
+    //   });
+    // }
+
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully',
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || 'User not deleted',
+      data: error,
+    });
+  }
+};
+
+// add new product in order
+
+const addProductInOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const parseData = Number(userId);
+    const product = req.body;
+    await UserService.addProductInOrderDB(parseData, product);
+
+    const userExists = new UserModel();
+    if (!(await userExists.isUserExists(parseData))) {
       return res.status(404).json({
         success: false,
         message: 'User not found',
@@ -136,17 +181,87 @@ const deleteUserById = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'User deleted successfully',
-      data: result,
+      message: 'Order created successfully!',
+      data: null,
     });
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error.message || 'User not deleted',
+      message: error.message || 'Order not added',
+      data: error,
+    });
+  }
+};
+
+// get all orders by user id
+
+const getAllOrdersByUserId = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const parseData = Number(userId);
+    const order = await UserService.getAllOrdersByUserIdDB(parseData);
+
+    const userExists = new UserModel();
+    if (!(await userExists.isUserExists(parseData))) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+
+    const orders = order?.orders || [];
+
+    res.status(200).json({
+      success: true,
+      message: 'Orders fetched successfully!',
+      data: orders,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || 'Orders not fetched',
       data: error,
     });
   }
 }
+
+// get total price from a specific user
+const getTotalPriceByUserId = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const parseData = Number(userId);
+    const totalPrice = await UserService.getTotalPriceByUserIdDB(parseData);
+
+    const userExists = new UserModel();
+    if (!(await userExists.isUserExists(parseData))) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: { totalPrice },
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || 'Total price not fetched',
+      data: error,
+    });
+  }
+}
+
 
 export const UserController = {
   createUser,
@@ -154,4 +269,7 @@ export const UserController = {
   getOneUserById,
   updateUserById,
   deleteUserById,
+  addProductInOrder,
+  getAllOrdersByUserId,
+  getTotalPriceByUserId,
 };

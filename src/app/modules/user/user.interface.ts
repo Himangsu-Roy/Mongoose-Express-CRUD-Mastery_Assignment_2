@@ -28,13 +28,13 @@ export type TUser = {
 };
 
 
-
-// for creating instance constructor function user is exist or not
-// export type TUserMethods = TUser & {
-//   isUserExists: (id: string) => Promise<TUser | null>;
-// };
+// for creating instance constructor function user is exist or not type
 export type TUserMethods = {
   isUserExists(userId: number): Promise<TUser | null>;
 };
 
-export type TUserModel = Model<TUser, Record<string, never>, TUserMethods>;
+export type TUserModel = Model<
+  TUser,
+  Record<string, never>,
+  TUserMethods
+>;

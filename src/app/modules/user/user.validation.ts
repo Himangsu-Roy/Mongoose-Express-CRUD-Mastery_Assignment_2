@@ -26,7 +26,7 @@ const userSchema = z.object({
     country: z.string(),
   }),
   orders: z.array(orderSchema),
-  isDeleted: z.boolean(),
+  isDeleted: z.boolean().default(false),
 });
 
 export default userSchema;

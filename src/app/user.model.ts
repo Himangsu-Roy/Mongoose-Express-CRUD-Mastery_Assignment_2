@@ -38,7 +38,6 @@ const userSchema = new Schema<TUser, TUserModel, TUserMethods>({
 
 // password hashing and save into DB
 userSchema.pre('save', function (this: TUser, next) {
-  // hashing password and save into DB
   bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds), (err, hash) => {
     if (err) return next(err);
     this.password = hash;
@@ -51,7 +50,6 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-
 userSchema.pre('findOne', function (next) {
   this.findOne({ isDeleted: { $ne: true } });
   next();
@@ -59,7 +57,9 @@ userSchema.pre('findOne', function (next) {
 
 // aggregation
 userSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  this.pipeline().unshift({
+    $match: { isDeleted: { $ne: true } },
+  });
   next();
 });
 
@@ -69,7 +69,6 @@ userSchema.methods.isUserExists = async function (userId: number) {
   return existingUser;
 };
 
-// userSchema.index({ id: 1 }, { unique: true });
 
 const UserModel = model<TUser, TUserModel>('User', userSchema);
 
