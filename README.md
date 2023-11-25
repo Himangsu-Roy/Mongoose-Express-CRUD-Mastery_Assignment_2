@@ -21,7 +21,7 @@ This is a simple Node.js Express application with TypeScript for building a CRUD
 
 #### 3. **Configure Environment Variables**
 <pre>
-DATABASE_URL=your_mongodb_connection_string
+DATABASE_URL=your_mongodb_connection_url_string
 NODE_ENV=development
 PORT=5000
 BCRYPT_SALT_ROUNDS=12
@@ -103,5 +103,5 @@ GET /api/users/:userId/orders
 
 <pre>
 
-Make sure to replace placeholders like `your_mongodb_connection_string` with your actual information. Additionally, tailor the content according to the structure and features of your application.
+Make sure to replace placeholders like `your_mongodb_connection_url_string` with your actual information. Additionally, tailor the content according to the structure and features of your application.
 </pre>
