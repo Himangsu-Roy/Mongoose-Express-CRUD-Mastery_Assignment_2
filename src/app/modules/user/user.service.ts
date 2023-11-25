@@ -1,7 +1,5 @@
-
 import UserModel from '../../user.model';
 import { TUser } from './user.interface';
-
 
 const createUserIntoDB = async (userData: TUser) => {
   const user = new UserModel(userData);
@@ -99,14 +97,12 @@ const addProductInOrderDB = async (userId: number, product: any) => {
   return result;
 };
 
-
 // get all orders from DB
 
 const getAllOrdersByUserIdDB = async (userId: number) => {
   const result = await UserModel.findOne({ userId }, { orders: 1 });
   return result;
-}
-
+};
 
 // get total price from DB orders by user id
 
@@ -122,8 +118,7 @@ const getTotalPriceByUserIdDB = async (userId: number) => {
   ]);
   const totalPrice = result.length > 0 ? result[0].totalPrice : 0;
   return totalPrice;
-}
-
+};
 
 export const UserService = {
   createUserIntoDB,

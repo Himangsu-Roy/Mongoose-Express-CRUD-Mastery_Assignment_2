@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
 });
 
 // Application routes
-app.use('/api/v1/user', UserRoutes);
+app.use('/api/users', UserRoutes);
 
 // routes
 app.get('/', (req: Request, res: Response) => {

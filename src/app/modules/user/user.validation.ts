@@ -25,7 +25,7 @@ const userSchema = z.object({
     city: z.string(),
     country: z.string(),
   }),
-  orders: z.array(orderSchema),
+  orders: z.array(orderSchema).optional(),
   isDeleted: z.boolean().default(false),
 });
 

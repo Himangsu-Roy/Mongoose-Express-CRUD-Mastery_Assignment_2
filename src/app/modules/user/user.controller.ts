@@ -159,7 +159,6 @@ const deleteUserById = async (req: Request, res: Response) => {
 };
 
 // add new product in order
-
 const addProductInOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -194,7 +193,6 @@ const addProductInOrder = async (req: Request, res: Response) => {
 };
 
 // get all orders by user id
-
 const getAllOrdersByUserId = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -227,14 +225,14 @@ const getAllOrdersByUserId = async (req: Request, res: Response) => {
       data: error,
     });
   }
-}
+};
 
 // get total price from a specific user
 const getTotalPriceByUserId = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const parseData = Number(userId);
-    const totalPrice = await UserService.getTotalPriceByUserIdDB(parseData);
+    const order = await UserService.getTotalPriceByUserIdDB(parseData);
 
     const userExists = new UserModel();
     if (!(await userExists.isUserExists(parseData))) {
@@ -251,7 +249,7 @@ const getTotalPriceByUserId = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Total price calculated successfully!',
-      data: { totalPrice },
+      data: { order },
     });
   } catch (error: any) {
     res.status(400).json({
@@ -260,8 +258,7 @@ const getTotalPriceByUserId = async (req: Request, res: Response) => {
       data: error,
     });
   }
-}
-
+};
 
 export const UserController = {
   createUser,
