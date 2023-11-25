@@ -20,8 +20,12 @@ This is a simple Node.js Express application with TypeScript for building a CRUD
 <pre>npm install</pre>
 
 #### 3. **Configure Environment Variables**
-   MONGODB_URI=your_mongodb_connection_string
-   PORT=3000
+<pre>
+DATABASE_URL=your_mongodb_connection_string
+NODE_ENV=development
+PORT=5000
+BCRYPT_SALT_ROUNDS=12
+</pre>
 
 #### 4. **Run the Application**
 <pre>npm run dev</pre>
@@ -57,22 +61,19 @@ This is a simple Node.js Express application with TypeScript for building a CRUD
 </code>
 </pre>
 
-- Retrieve all users:
-<pre> GET /api/users</pre>
+- **Retrieve all users:**
+<pre><code>GET /api/users</code></pre>
 
-- Retrieve a specific user by ID:
-  <pre>GET /api/users/:userId</pre>
+- **Retrieve a specific user by ID:**
+<pre><code>GET /api/users/:userId</code></pre>
 
-- Update user information:
-<per>
-PUT /api/users/:userId
-Request Body:
-</pre>
+- **Update user information:**
+<per><code>PUT /api/users/:userId</code></pre>
 
-- Delete a user:
-<pre>DELETE /api/users/:userId </pre>
+- **Delete a user:**
+<pre><code>DELETE /api/users/:userId </code></pre>
 
-- Add a new product in order:
+- **Add a new product in order:**
 
 <pre>
 PUT /api/users/:userId/orders
@@ -86,13 +87,15 @@ Request Body:
 </code>
 </pre>
 
-- Retrieve all orders for a specific user:
+- **Retrieve all orders for a specific user:**
 <pre>
+<code>
 GET /api/users/:userId/orders
+</code>
 </pre>
 
-- Calculate total price of orders for a specific user:
-<pre>GET /api/users/:userId/orders/total-price
+- **Calculate total price of orders for a specific user:**
+<pre><code>GET /api/users/:userId/orders/total-price</code>
 </pre>
 
 #### 6. **Testing**
@@ -101,5 +104,4 @@ GET /api/users/:userId/orders
 <pre>
 
 Make sure to replace placeholders like `your_mongodb_connection_string` with your actual information. Additionally, tailor the content according to the structure and features of your application.
-
 </pre>
