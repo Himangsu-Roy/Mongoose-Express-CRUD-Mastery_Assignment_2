@@ -49,7 +49,7 @@ This is a simple Node.js Express application with TypeScript for building a CRUD
   }
 
 - Delete a user:
-  <pre>DELETE /api/users/:userId </pre> 
+  <pre>DELETE /api/users/:userId </pre>
 
 - Add a new product in order:
 
@@ -72,32 +72,11 @@ GET /api/users/:userId/orders
 <pre>GET /api/users/:userId/orders/total-price
 </pre>
 
-
 5. Testing
-You can use tools like Postman to test the API endpoints locally.
-
+   You can use tools like Postman to test the API endpoints locally.
 
 <pre>
+<code>
 Make sure to replace placeholders like `your_mongodb_connection_string` with your actual information. Additionally, tailor the content according to the structure and features of your application.
+</code>
 </pre>
-
-
-<!-- Include Clipboard.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
-
-<!-- Your code block -->
-<pre>
-  <code id="code-block">
-    // Your code here
-  </code>
-</pre>
-
-<!-- Copy button -->
-<button class="clipboard-btn" data-clipboard-target="#code-block">Copy to Clipboard</button>
-
-<!-- Initialize Clipboard.js -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    new ClipboardJS('.clipboard-btn');
-  });
-</script>
