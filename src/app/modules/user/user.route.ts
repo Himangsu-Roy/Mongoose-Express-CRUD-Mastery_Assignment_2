@@ -3,6 +3,7 @@ import { UserController } from './user.controller';
 
 const router = express.Router();
 
+// all data fetch routes
 router.post('/create-user', UserController.createUser);
 router.get('/', UserController.getAllUsers);
 router.get('/:userId', UserController.getOneUserById);

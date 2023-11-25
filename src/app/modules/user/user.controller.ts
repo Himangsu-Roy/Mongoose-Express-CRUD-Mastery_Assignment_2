@@ -115,13 +115,8 @@ const deleteUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const parseData = Number(userId);
-    // const result = await UserService.deleteUserFromDB(parseData);
-
-    // const userExists = await UserModel.isUserExists(userId);
     const userExists = new UserModel();
     const existingUser = userExists.isUserExists(parseData);
-    console.log(await existingUser);
-
     if (!(await existingUser)) {
       return res.status(404).json({
         success: false,
@@ -132,17 +127,6 @@ const deleteUserById = async (req: Request, res: Response) => {
         },
       });
     }
-    // const userExists = new UserModel(result);
-    // if (result.matchedCount === 0) {
-    //   return res.status(404).json({
-    //     success: false,
-    //     message: 'User not found',
-    //     error: {
-    //       code: 404,
-    //       description: 'User not found!',
-    //     },
-    //   });
-    // }
 
     res.status(200).json({
       success: true,
@@ -197,7 +181,8 @@ const getAllOrdersByUserId = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const parseData = Number(userId);
-    const order = await UserService.getAllOrdersByUserIdDB(parseData);
+    const result = await UserService.getAllOrdersByUserIdDB(parseData);
+    const orders = result?.orders || [];
 
     const userExists = new UserModel();
     if (!(await userExists.isUserExists(parseData))) {
@@ -210,8 +195,6 @@ const getAllOrdersByUserId = async (req: Request, res: Response) => {
         },
       });
     }
-
-    const orders = order?.orders || [];
 
     res.status(200).json({
       success: true,

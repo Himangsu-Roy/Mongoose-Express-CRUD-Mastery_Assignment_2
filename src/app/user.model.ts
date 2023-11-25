@@ -36,6 +36,7 @@ const userSchema = new Schema<TUser, TUserModel, TUserMethods>({
   isDeleted: { type: Boolean, default: false },
 });
 
+//middlewares
 // password hashing and save into DB
 userSchema.pre('save', function (this: TUser, next) {
   bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds), (err, hash) => {
@@ -45,17 +46,19 @@ userSchema.pre('save', function (this: TUser, next) {
   });
 });
 
+// send result password empty
 userSchema.post('save', function (doc, next) {
   doc.password = '';
   next();
 });
 
+// checking isDeleted is not equal by value
 userSchema.pre('findOne', function (next) {
   this.findOne({ isDeleted: { $ne: true } });
   next();
 });
 
-// aggregation
+// checking isDeleted is not equal by value with aggregation
 userSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({
     $match: { isDeleted: { $ne: true } },
@@ -63,7 +66,7 @@ userSchema.pre('aggregate', function (next) {
   next();
 });
 
-// user is exists or not
+// create a constructor instance method for checking is the user is exists or not
 userSchema.methods.isUserExists = async function (userId: number) {
   const existingUser = await UserModel.findOne({ userId });
   return existingUser;

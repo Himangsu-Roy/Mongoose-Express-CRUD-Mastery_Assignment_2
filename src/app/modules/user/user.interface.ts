@@ -1,11 +1,12 @@
 import { Model } from "mongoose";
-
+// Define the order type
 type TOrder = {
   productName: string;
   price: number;
   quantity: number;
 };
 
+// Define the user type
 export type TUser = {
   userId: number;
   username: string;

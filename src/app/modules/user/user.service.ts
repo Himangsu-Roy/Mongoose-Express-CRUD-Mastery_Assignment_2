@@ -1,6 +1,7 @@
 import UserModel from '../../user.model';
 import { TUser } from './user.interface';
 
+// create a user into DB
 const createUserIntoDB = async (userData: TUser) => {
   const user = new UserModel(userData);
 
@@ -9,9 +10,7 @@ const createUserIntoDB = async (userData: TUser) => {
   }
 
   const result = await user.save();
-
-  // Use $project to shape the output
-  const projection = {
+  const project = {
     userId: 1,
     username: 1,
     fullName: 1,
@@ -21,29 +20,11 @@ const createUserIntoDB = async (userData: TUser) => {
     _id: 0,
   };
 
-  // Fetch the saved user data with the specified projection
-  const savedUser = await UserModel.findById(result._id, projection);
+  // Fetch the saved user data with the specified project
+  const savedUser = await UserModel.findById(result._id, project);
   return savedUser;
 };
 
-// create a user into DB
-// const createUserIntoDB = async (userData: TUser) => {
-
-//   const user = new UserModel(userData);
-//   if (await user.isUserExists(userData.userId)) {
-//     throw new Error('User already exists');
-//   }
-//   const result = await user.save();
-//   return result;
-//   // return await UserModel.create(user);
-
-//   // const userWithoutPassword: UserWithoutPassword =
-//   //   result.toObject() as UserWithoutPassword;
-
-//   // const { password, ...userWithoutPasswordSafe } = userWithoutPassword;
-
-//   // return userWithoutPasswordSafe;
-// };
 
 // get all users from DB
 const getAllUserFromDB = async () => {
@@ -97,15 +78,15 @@ const addProductInOrderDB = async (userId: number, product: any) => {
   return result;
 };
 
-// get all orders from DB
 
+// get all orders from DB
 const getAllOrdersByUserIdDB = async (userId: number) => {
   const result = await UserModel.findOne({ userId }, { orders: 1 });
   return result;
 };
 
-// get total price from DB orders by user id
 
+// get total price from DB orders by user id
 const getTotalPriceByUserIdDB = async (userId: number) => {
   const result = await UserModel.aggregate([
     { $match: { userId } },

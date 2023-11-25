@@ -21,9 +21,9 @@ app.use(function (req, res, next) {
 // Application routes
 app.use('/api/users', UserRoutes);
 
-// routes
+// landing route
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Node.js, Express, MongoDB, TypeScript CRUD Application Server is Running');
 });
 
 export default app;
